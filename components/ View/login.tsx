@@ -32,6 +32,7 @@ export default function Login() {
     Proceed()
     if (client.StudentNumber.length > 1) {
       if (client.password.length > 5){
+        // Continue validation for login
         pass = true;
        
       }

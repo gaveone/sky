@@ -1,17 +1,26 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 type State = {
-     firstName: string
-     lastName: string
-   }
-   
-   type Action = {
-     updateFirstName: (firstName: State['firstName']) => void
-     updateLastName: (lastName: State['lastName']) => void
-   }
-   
- export const usePersonStore = create<State & Action>((set) => ({
-     firstName: '',
-     lastName: '',
-     updateFirstName: (firstName) => set(() => ({ firstName: firstName })),
-     updateLastName: (lastName) => set(() => ({ lastName: lastName })),
-   }))
+  count: number
+
+};
+
+type Action = {
+  increment:()=>void,
+  decrement: ()=>void,
+
+  
+};
+
+export const usePersonStore = create<State & Action>((set) => ({
+  count: 0,
+  increment: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+    set((state) => ({ count: state.count + 1 }))
+  },
+  decrement: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+    set((state) => ({ count: state.count - 1 }))
+  },
+}));
+  
+

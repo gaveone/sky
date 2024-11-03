@@ -29,7 +29,7 @@ export default function ButtonX({
           const Allow = Voidfunction()
           if (!Allow) return;
           // If there's still other actions delay, the transition
-          await sleep((550 +delay));
+          await sleep((550 + delay));
           body?.classList.add('page-transition');
           
           // Push to the new location

@@ -4,14 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  transition-property:background-color filter opacity;
-  transition-duration: 550ms ;
-  transition-timing-function: ease-in-out;
-}
-.page-transition{
-  opacity: 0;
-  background-color: var(--background);
-  filter: blur(24px);
+  
 }
 
 @layer base {
