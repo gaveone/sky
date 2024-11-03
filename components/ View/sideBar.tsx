@@ -11,6 +11,7 @@ import {
      DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { ChevronRight } from 'lucide-react';
 
 
 export default function SideBar() {
@@ -49,7 +50,12 @@ export default function SideBar() {
                <header className=' border rounded-sm' >
 
                </header>
-               <main>
+               <main className=' flex flex-col gap-1 items-center'>
+                    {/* Main content */}
+                    <SideBarGroup/>
+                    <SideBarGroup/>
+                    <SideBarGroup/>
+                    <SideBarGroup/>
 
                </main>
 
@@ -98,4 +104,31 @@ export default function SideBar() {
 
           </div>
      )
+}
+
+
+
+function SideBarGroup() {
+     const[open , setOpen] = useState(true); 
+
+     return(
+          <div className=' w-full'>
+               <div onClick={()=>setOpen(pre =>!pre)} className=' flex flex-row gap-[0.1rem] items-center'>
+               <h1 className=' text-[1.3rem]' >Group</h1>
+               <ChevronRight className={`transition-all duration-300  ease-in-out ${open ? "rotate-0" : "rotate-90"} `}/>
+               </div>
+               <div
+                className={`transition-all duration-300  ease-in-out overflow-hidden   flex flex-col gap-1 ${open? " scale-y-100" : "scale-y-0 h-0"} origin-top `}
+               
+               >
+                   
+                   <Button variant={"secondary"} className=' text-lg'> math</Button>
+                   <Button variant={"secondary"} className=' text-lg'> math</Button>
+                   <Button variant={"secondary"} className=' text-lg'> math</Button>
+
+               </div>
+              
+          </div>
+     )
+     
 }
