@@ -10,7 +10,7 @@ body {
   filter: blur(12px);
 }
 
-.SIDEBAR {
+/* .SIDEBAR {
   width: 250px;
   transition-property: width;
   transition-duration: 200ms;
@@ -31,4 +31,4 @@ body {
 
 .Move {
   left: 75%;
-}
+} */
