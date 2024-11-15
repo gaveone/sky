@@ -78,7 +78,7 @@ export default function SideBar() {
                                                   <AvatarImage src="https://github.com/shadcn.png" />
                                                   <AvatarFallback>CN</AvatarFallback>
                                              </Avatar>
-                                             <h1 className=' text-lg'>name</h1>
+                                             <h1 className=' text-lg'>30094590</h1>
                                              </>
                                              
 

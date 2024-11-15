@@ -1,13 +1,11 @@
 "use client"
-import { usePersonStore } from '@/store/user'
 import React from 'react'
-import { Button } from '../ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 export default function Main() {
-     const decrement = usePersonStore((state)=>state.decrement)
-     const increment = usePersonStore((state)=>state.increment)
-     const item = usePersonStore((state)=>state.count)
-    
+  
+
   return (
     <main className=' h-full w-full flex flex-col'>
       {/* Main content */}
@@ -16,13 +14,26 @@ export default function Main() {
         H
 
       </nav>
-      <section className=' flex-grow'>
+      <section className=' flex-grow p-2'>
+        <Tabs defaultValue="lecture" className="">
+          <TabsList>
+            <TabsTrigger value="lecture">lecture</TabsTrigger>
+            <TabsTrigger value="Quiz">Quiz</TabsTrigger>
+            <TabsTrigger value="Graidding">Graidding</TabsTrigger>
+          </TabsList>
+          <TabsContent className=' w-full h-full' value="lecture">lecture.</TabsContent>
+          <TabsContent className=' w-full h-full' value="Quiz">Quiz.</TabsContent>
+          <TabsContent className=' w-full h-full' value="Graidding">Graidding.</TabsContent>
+
+        </Tabs>
+
+
 
 
 
       </section>
 
-      
+
     </main>
   )
 }
