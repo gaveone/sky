@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./animation.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,12 +27,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
         <main className=" h-screen flex flex-col bg-background text-foreground">
         {children}
         </main>
+        </ThemeProvider>
        
       </body>
     </html>

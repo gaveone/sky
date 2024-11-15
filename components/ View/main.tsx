@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import LectureMode from './lecture/lectureMode'
 
 
 export default function Main() {
@@ -21,7 +22,7 @@ export default function Main() {
             <TabsTrigger value="Quiz">Quiz</TabsTrigger>
             <TabsTrigger value="Graidding">Graidding</TabsTrigger>
           </TabsList>
-          <TabsContent className=' w-full h-full' value="lecture">lecture.</TabsContent>
+          <TabsContent className=' w-full h-full flex flex-col' value="lecture"><LectureMode/></TabsContent>
           <TabsContent className=' w-full h-full' value="Quiz">Quiz.</TabsContent>
           <TabsContent className=' w-full h-full' value="Graidding">Graidding.</TabsContent>
 
