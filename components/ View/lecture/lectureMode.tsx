@@ -4,7 +4,6 @@ import {
      BreadcrumbItem,
      BreadcrumbLink,
      BreadcrumbList,
-     BreadcrumbPage,
      BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
@@ -41,13 +40,13 @@ export default function LectureMode() {
 
 
 
-function SubjecteMode() {
-     return (
-          <>
+// function SubjecteMode() {
+//      return (
+//           <>
 
 
-          </>
-     )
-}
+//           </>
+//      )
+// }
 
 

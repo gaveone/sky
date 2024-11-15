@@ -22,7 +22,7 @@ const classes = [
 ];
 
 export default function SideBar() {
-     const [clap, setClap] = useState(false);
+     const [clap] = useState(false);
 
      return (
           <div
