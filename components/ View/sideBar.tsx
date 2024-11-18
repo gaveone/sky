@@ -13,15 +13,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronRight } from "lucide-react";
 import { ModeToggle } from "../toggleMode";
-const classes = [
-     { className: "Math", subjects: ["Algebra", "Geometry"] },
-     { className: "English", subjects: ["Literature", "Grammar"] },
-     { className: "Science", subjects: ["Biology", "Chemistry"] },
-     { className: "History", subjects: ["World History", "American History"] },
-     { className: "Art", subjects: ["Painting", "Sculpture"] },
-];
+type Item={
+     ItemName: string;
+     subItem: string[];
+}
 
-export default function SideBar() {
+
+export default function SideBar({Item}:{Item:Item[] |null}) {
      const [clap] = useState(false);
 
      return (
@@ -50,12 +48,12 @@ export default function SideBar() {
                </header>
                <main className=" relative flex flex-col gap-2 items-center w-full">
                     {/* Main content */}
-                    {classes.map((classItem) => (
+                    {Item?.map((Item) => (
                          <SideBarGroup
-                              key={classItem.className}
+                              key={Item.ItemName}
                               clap={clap}
-                              className={classItem.className}
-                              SubjectList={classItem.subjects}
+                              className={Item.ItemName}
+                              SubjectList={Item.subItem}
                          />
                     ))}
 
