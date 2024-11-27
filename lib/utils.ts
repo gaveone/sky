@@ -35,3 +35,9 @@ export function toFileAsBase64(file: File): Promise<FileDetails> {
     reader.onerror = (error) => reject(error);
   });
 }
+
+
+
+function StudentNumberGenerator() {
+  return Math.floor(Math.random() * 9999999999)
+}

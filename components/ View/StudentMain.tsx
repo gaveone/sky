@@ -1,5 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { Checkbox } from "@/components/ui/checkbox"
+
 import { Button } from '../ui/button'
 import {
   Table,
@@ -12,7 +14,14 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 type SC = {
-  type: "Quiz" | "Lecture" | null, data: boolean, Duedate: boolean
+   data: boolean, Duedate: boolean, Lecture: boolean, Quiz: boolean
+}
+type cl = {
+  name: string,
+  type: string,
+  Duedate: string;
+  date: string;
+  Files: number;
 }
 
 const jo = [
@@ -171,7 +180,8 @@ export default function Main() {
   ])
 
   const [sortingConfig, setSortingConfig] = useState<SC>({
-    type: "Lecture",
+    Lecture: true,
+    Quiz: true,
     data: false,
     Duedate: false
   })
@@ -180,40 +190,42 @@ export default function Main() {
 
   // Fetch the Class data
   useEffect(() => {
-    if (sortingConfig.type) {
-      setClasses(jo)
-      setClasses(prev => {
-        const A = prev.filter((a) => a.type === sortingConfig.type)
-        if (sortingConfig.data) {
-          A.sort((first, second) => {
-            const DateA = new Date(first.date).getTime();
-            const DateB = new Date(second.date).getTime();
-            return (DateA - DateB)
-          })
 
+    setClasses(jo)
+    setClasses(prev => {
+      const A = prev.filter((a) => {
+        if (sortingConfig.Lecture && sortingConfig.Quiz) {
+          return true; // Keep all if both are true
         }
-        if (sortingConfig.Duedate) {
-          A.sort((first) => {
-            const DateA = new Date(first.date).getTime();
-            const DateB = new Date().getTime();
-
-            return (DateA - DateB)
-
-
-          })
-
+         if (sortingConfig.Lecture && !sortingConfig.Quiz){
+          return a.type === "Lecture";
+        } 
+        if (sortingConfig.Quiz && !sortingConfig.Lecture){
+          return a.type === "Quiz";
         }
 
-        return A
-
+        return false;
 
       })
 
 
+      if (sortingConfig.data || sortingConfig.Duedate) {
+        A.sort((first, second) => {
+          const dateA = new Date(first.date).getTime();
+          const dateB = sortingConfig.Duedate ? new Date().getTime() : new Date(second.date).getTime();
+          return dateA - dateB; // Ascending order
+        });
+      }
+      return A
+
+
+    })
 
 
 
-    }
+
+
+
 
 
   }, [sortingConfig])
@@ -232,9 +244,33 @@ export default function Main() {
       </nav>
       <section className=' flex-grow p-2'>
         {/* Filter bar */}
-        <div className=' flex flex-row gap-2'>
-          <Button onClick={() => setSortingConfig(perConfig => ({ ...perConfig, type: "Quiz" }))}> Only Quiz</Button>
-          <Button onClick={() => setSortingConfig(perConfig => ({ ...perConfig, type: "Lecture" }))}> Only Lecture</Button>
+        <div className=' flex flex-row gap-3 p-3'>
+          <div className="flex items-center space-x-2">
+            <Checkbox checked={sortingConfig.Quiz} id="Quiz" onClick={(e) => {
+        
+              setSortingConfig(pre => ({ ...pre, Quiz:!pre.Quiz }))
+            }
+
+            } />
+            <label
+              htmlFor="Quiz"
+              className="text-sm font-medium leading-none"
+            >
+              Quiz
+            </label>
+
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox checked={sortingConfig.Lecture} id="Lecture" onClick={() => { setSortingConfig(pre => ({ ...pre, Lecture:!pre.Lecture })) }} />
+            <label
+              htmlFor="Lecture"
+              className="text-sm font-medium leading-none"
+            >
+              Lecture
+            </label>
+
+          </div>
         </div>
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>

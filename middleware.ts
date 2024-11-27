@@ -18,13 +18,13 @@ export default middleware((req)=>{
      const isProtectedRoute = routes.Protection.some((pattern) => pattern.test(pathname));
      const isAuthRoute = routes.auth.some((pattern) => pattern.test(pathname));
 
-     if (isProtectedRoute && !auth){
-          return NextResponse.redirect(new URL("/", req.url));
-     }
+     // if (isProtectedRoute && !auth){
+     //      return NextResponse.redirect(new URL("/", req.url));
+     // }
 
-     if (isAuthRoute && auth){
-          return NextResponse.redirect(new URL("/Home/Student", req.url));
-     }
+     // if (isAuthRoute && auth){
+     //      return NextResponse.redirect(new URL("/Home/Student", req.url));
+     // }
     
     
      NextResponse.next()

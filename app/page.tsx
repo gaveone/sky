@@ -1,6 +1,8 @@
 import Login from "@/components/ View/login";
 
 export default async function page() {
+  
+
 
 
   return (

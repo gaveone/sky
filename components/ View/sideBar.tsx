@@ -13,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronRight } from "lucide-react";
 import { ModeToggle } from "../toggleMode";
+import UserCard from "../UserCard";
 type Item={
      ItemName: string;
      subItem: string[];
@@ -62,48 +63,12 @@ export default function SideBar({Item}:{Item:Item[] |null}) {
 
                <footer
                     className={`
-                         border rounded-sm grid grid-cols-[1fr_1fr] transition-all duration-200 justify-center items-center gap-5
+                         border rounded-sm flex flex-row transition-all duration-200 justify-center items-center 
                          ${clap && " justify-center"} 
                          p-1
                          `}
                >
-                    <DropdownMenu>
-                         <DropdownMenuTrigger>
-                              <div className="flex items-center gap-2 w-full">
-                                   {clap
-                                        ? (
-                                             <Avatar className="w-[3rem] h-[3rem] ">
-                                                  <AvatarImage src="https://github.com/shadcn.png" />
-                                                  <AvatarFallback>
-                                                       CN
-                                                  </AvatarFallback>
-                                             </Avatar>
-                                        )
-                                        : (
-                                             <>
-                                                  <Avatar className="w-[3rem] h-[3rem]">
-                                                       <AvatarImage src="https://github.com/shadcn.png" />
-                                                       <AvatarFallback>
-                                                            CN
-                                                       </AvatarFallback>
-                                                  </Avatar>
-                                                  <h1 className=" text-lg">
-                                                       30094590
-                                                  </h1>
-                                             </>
-                                        )}
-                              </div>
-                         </DropdownMenuTrigger>
-                         <DropdownMenuContent>
-                              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem>Profile</DropdownMenuItem>
-                              <DropdownMenuItem>Billing</DropdownMenuItem>
-                              <DropdownMenuItem>Team</DropdownMenuItem>
-                              <DropdownMenuItem>Subscription</DropdownMenuItem>
-                         </DropdownMenuContent>
-                    </DropdownMenu>
-                    <ModeToggle/>
+                   <UserCard clap={clap} username="adeun" userNumber={4543345345}/>
                </footer>
           </div>
      );
