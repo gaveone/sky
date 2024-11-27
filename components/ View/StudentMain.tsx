@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { Button } from '../ui/button'
 import {
   Table,
   TableBody,
@@ -16,13 +15,13 @@ import { Badge } from "@/components/ui/badge"
 type SC = {
    data: boolean, Duedate: boolean, Lecture: boolean, Quiz: boolean
 }
-type cl = {
-  name: string,
-  type: string,
-  Duedate: string;
-  date: string;
-  Files: number;
-}
+// type cl = {
+//   name: string,
+//   type: string,
+//   Duedate: string;
+//   date: string;
+//   Files: number;
+// }
 
 const jo = [
   {
@@ -222,12 +221,6 @@ export default function Main() {
     })
 
 
-
-
-
-
-
-
   }, [sortingConfig])
 
 
@@ -246,7 +239,7 @@ export default function Main() {
         {/* Filter bar */}
         <div className=' flex flex-row gap-3 p-3'>
           <div className="flex items-center space-x-2">
-            <Checkbox checked={sortingConfig.Quiz} id="Quiz" onClick={(e) => {
+            <Checkbox checked={sortingConfig.Quiz} id="Quiz" onClick={() => {
         
               setSortingConfig(pre => ({ ...pre, Quiz:!pre.Quiz }))
             }

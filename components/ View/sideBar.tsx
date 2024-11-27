@@ -2,14 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 // import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import {
-     DropdownMenu,
-     DropdownMenuContent,
-     DropdownMenuItem,
-     DropdownMenuLabel,
-     DropdownMenuSeparator,
-     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronRight } from "lucide-react";
 import { ModeToggle } from "../toggleMode";
