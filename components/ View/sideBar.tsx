@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 // import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronRight } from "lucide-react";
-import { ModeToggle } from "../toggleMode";
 import UserCard from "../UserCard";
 type Item={
      ItemName: string;
