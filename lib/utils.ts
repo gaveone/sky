@@ -38,6 +38,6 @@ export function toFileAsBase64(file: File): Promise<FileDetails> {
 
 
 
-function StudentNumberGenerator() {
-  return Math.floor(Math.random() * 9999999999)
-}
+// function StudentNumberGenerator() {
+//   return Math.floor(Math.random() * 9999999999)
+// }

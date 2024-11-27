@@ -8,7 +8,6 @@ import {
      DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChevronRight } from "lucide-react";
 import { ModeToggle } from "./toggleMode";
 
 import React from 'react'
