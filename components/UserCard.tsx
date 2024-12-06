@@ -11,20 +11,29 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./toggleMode";
 
 import React from 'react'
+import { Button } from "./ui/button";
+import SignOut from "@/server/endPoint/SignOut";
+import { useSession , signOut } from "next-auth/react"
+
 type props = {
      clap: boolean
-     userNumber: number;
-     username: string
+     userNumber: number | null;
+     username: string | null
 }
 
-function UserCard({clap , userNumber , username}:props) {
+function UserCard({ clap, userNumber, username }: props) {
+     const { data: session } = useSession()
+     console.log(session?.user.UserIdNumber);
+     
+    
+   
      return (
           <div
-          className={`
-                grid grid-cols-[1fr_1fr] justify-center items-center w-[220px] gap-5
+               className={`
+                grid grid-cols-[1fr_1fr] justify-center items-center w-[260px] gap-5
               
                `}
-          
+
           >
                <DropdownMenu>
                     <DropdownMenuTrigger>
@@ -34,7 +43,7 @@ function UserCard({clap , userNumber , username}:props) {
                                         <Avatar className="w-[3rem] h-[3rem] ">
                                              <AvatarImage src="https://github.com/shadcn.png" />
                                              <AvatarFallback>
-                                                  {username.substring(0 ,1)}
+                                                  {session?.user.name?.substring(0, 1)}
                                              </AvatarFallback>
                                         </Avatar>
                                    )
@@ -43,11 +52,11 @@ function UserCard({clap , userNumber , username}:props) {
                                              <Avatar className="w-[3rem] h-[3rem]">
                                                   <AvatarImage src="https://github.com/shadcn.png" />
                                                   <AvatarFallback>
-                                                  {username.substring(0 ,1)}
+                                                       {session?.user.name?.substring(0, 1)}
                                                   </AvatarFallback>
                                              </Avatar>
                                              <h1 className=" text-lg">
-                                                  {userNumber}
+                                                  {session?.user.UserIdNumber}
                                              </h1>
                                         </>
                                    )}
@@ -59,7 +68,12 @@ function UserCard({clap , userNumber , username}:props) {
                          <DropdownMenuItem>Profile</DropdownMenuItem>
                          <DropdownMenuItem>Billing</DropdownMenuItem>
                          <DropdownMenuItem>Team</DropdownMenuItem>
-                         <DropdownMenuItem>Subscription</DropdownMenuItem>
+                         <DropdownMenuItem className=" flex justify-center items-center">
+                             
+                                   <Button onClick={() => signOut({redirect:true , redirectTo:"/"})} variant={"destructive"}>Logout</Button>
+                           
+
+                         </DropdownMenuItem>
                     </DropdownMenuContent>
                </DropdownMenu>
                <ModeToggle />

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 // import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
@@ -13,6 +13,8 @@ type Item={
 
 export default function SideBar({Item}:{Item:Item[] |null}) {
      const [clap] = useState(false);
+     
+
 
      return (
           <div

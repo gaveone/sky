@@ -2,6 +2,8 @@
 import React from 'react'
 import Aheader from './Aheader'
 import SemesterCard from './SemesterCard';
+import SearchList from './SearchList';
+import { usePageTransition } from '@/components/PageAnimation';
 
 
 const fgo = [
@@ -64,6 +66,7 @@ export default function AdminClientView() {
       }
      return (
           <>
+           
                <Aheader />
                <div className=' flex flex-row gap-6 items-center justify-center p-3'>
                     {fgo.map(sem=>{
@@ -73,6 +76,8 @@ export default function AdminClientView() {
 
 
                </div>
+
+               <SearchList/>
 
           </>
      )

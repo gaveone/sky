@@ -3,8 +3,11 @@ import NextAuth, { type DefaultSession } from "next-auth"
 import { AdapterUser } from "@auth/core/adapters"
 
 declare module "@auth/core/adapters" {
-  interface AdapterUser extends Omit<AdapterUser, "id"> {
-    id: string
+     
+  interface AdapterUser extends Omit<CoreAdapterUser, "role"> {
+    
+    role: string
+    UserIdNumber: number
    
   }
 }
@@ -15,6 +18,8 @@ declare module "next-auth" {
       */
      interface User { 
           id: string,
+          role: string
+          UserIdNumber: number
         
      }
      /**
@@ -30,6 +35,8 @@ declare module "next-auth" {
           user: {
                
                id: string,
+               role: string
+               UserIdNumber: number
 
 
           } & DefaultSession["user"]
@@ -46,6 +53,8 @@ declare module "next-auth/jwt" {
           /** OpenID ID Token */
          
           id: string,
-          idToken?: string
+          idToken?: string,
+          role: string
+          UserIdNumber: number
      }
 }

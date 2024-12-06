@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,24 +14,52 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
+  id   String  @id @default(cuid())
+  name String?
+
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  
+
+  role Role @default(STUDENT) // Role can be STUDENT, TEACHER, or ADMIN
+
+  // required fields
+  email        String @unique
+  UserIdNumber BigInt @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  dateOfBirth  String
+  phoneNumber  String
+  address      String
+  skyemail     String
+
+  // Student-specific fields
+  course           String? // Course the student is enrolled in
+  year             String? // Year of study
+  guardianName     String? // Guardian's name
+  guardianContact  String? // Guardian's contact number
+  emergencyContact String? // Emergency contact number
+
+  // Teacher-specific fields
+  certification     String? // Optional certification field
+  yearsOfExperience Int? // Years of teaching experience
+
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model Account {
   userId            String
   type              String
@@ -45,33 +72,33 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
@@ -82,8 +109,8 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([userId, credentialID])
 }

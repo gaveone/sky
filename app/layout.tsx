@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "./animation.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import ProviderQueryClient from "@/components/Provider/QueryClient";
+import { Toaster } from "@/components/ui/toaster"
+import AuthProvider from "@/components/Provider/AuthProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,21 +30,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        <main className=" h-screen flex flex-col bg-background text-foreground">
-        {children}
-        </main>
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className=" h-screen flex flex-col bg-background text-foreground">
+            <ProviderQueryClient>
+              <AuthProvider>
+                {children}
+
+              </AuthProvider>
+
+
+              <Toaster />
+            </ProviderQueryClient>
+
+          </main>
         </ThemeProvider>
-       
+
       </body>
     </html>
   );

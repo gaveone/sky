@@ -15,8 +15,20 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/loader";
+import { useMutation } from "@tanstack/react-query";
+import SignUp from "@/server/endPoint/SignUp";
+import { useToast } from "@/hooks/use-toast";
+import { studentSchema, teacherRegistrationSchema } from "@/lib/zot";
+import axios from 'axios'
+type gp ={
+     type: "STUDENT" | "ADMIN" | "TEACHER";
+     data: [string, string | number][];
+
+}
 
 export default function Aheader() {
+     const { toast } = useToast()
+
      const [formData, setFormData] = useState({
           firstName: '',
           lastName: '',
@@ -44,6 +56,19 @@ export default function Aheader() {
 
      });
      const [ProcessStudentRequest, setProcessStudentRequest] = useState(false)
+     const SignUpMutation = useMutation({
+          mutationFn: async (data:gp)=>{
+               const U = await axios.post("/api/signUp", data)
+               return U.data;
+
+          },
+          onSuccess: (data) => {
+               // toast({
+               //      description: data?.message
+               // })
+
+          }
+     })
 
 
 
@@ -51,28 +76,87 @@ export default function Aheader() {
           const { id, value } = e.target;
           setFormData((prevFormData) => ({
                ...prevFormData,
-               [id]: value
+               [id]: id === "yearsOfExperience" ? Number(value) : value
           }));
      };
 
      function SubmitTeacherRegistration() {
-          setProcessTeacherRequest(true)
-          console.log(formData);
-          setTimeout(() => {
-               console.log("teacher successfully created");
-               setProcessTeacherRequest(false)
-          }, 5000);
+          console.log("Form data before validation:", formData);
+
+          const formDataV = teacherRegistrationSchema.safeParse(formData)
+          if (!formDataV.success) {
+               formDataV.error.errors.forEach(error => {
+                    toast({
+
+                         title: error.path.join(" -> "),
+                         variant: "destructive",
+                         description: error.message
+                    })
+                    return;
+               })
+
+               return;
+          }
+          const formDa = Object.entries(formDataV.data)
+
+          SignUpMutation.mutate({
+               type: "ADMIN",
+               data: formDa
+          });
+
+          setFormData({
+               firstName: '',
+               lastName: '',
+               email: '',
+               phoneNumber: '',
+               address: '',
+               dateOfBirth: '',
+               certification: '',
+               yearsOfExperience: ''
+          });
+
+
+
+
+
+
 
      }
 
 
      function SubmitStudentsRegistration() {
-          setProcessStudentRequest(true)
-          console.log(formData);
-          setTimeout(() => {
-               console.log("Student successfully created");
-               setProcessStudentRequest(false)
-          }, 5000);
+          const formDataV = studentSchema.safeParse(formDataStudent)
+          if (!formDataV.success) {
+               formDataV.error.errors.forEach(error => {
+                    toast({
+
+                         title: error.path.join(" -> "),
+                         variant: "destructive",
+                         description: error.message
+                    })
+                    return;
+               })
+
+               return;
+          }
+          const formDa = Object.entries(formDataV.data)
+          SignUpMutation.mutate({
+               type: "STUDENT",
+               data: formDa
+          });
+          setFormDataStudent({
+               firstName: '',
+               lastName: '',
+               email: '',
+               phoneNumber: '',
+               address: '',
+               dateOfBirth: '',
+               course: '',
+               year: '',
+               guardianName: '',
+               guardianContact: '',
+               emergencyContact: ''
+          })
 
      }
      return (
@@ -87,11 +171,11 @@ export default function Aheader() {
                          <DialogHeader>
                               <DialogTitle> Create Instructor/teacher</DialogTitle>
                               <DialogDescription>
-                              Creating a Instructor/teacher profile for registration.
+                                   Creating a Instructor/teacher profile for registration.
                               </DialogDescription>
                          </DialogHeader>
 
-                         {ProcessTeacherRequest ? (<>
+                         {SignUpMutation.isPending ? (<>
                               <Loader />
 
                          </>) : (<>
@@ -163,10 +247,10 @@ export default function Aheader() {
 
                                    <div className="grid grid-rows-2 items-center gap-1">
                                         {/* Additional Info: Certification/License */}
-                                        <Label htmlFor="Certification">
+                                        <Label htmlFor="certification">
                                              Certification/License
                                         </Label>
-                                        <Input id="Certification" onChange={(e) => handleInputChange(e)} />
+                                        <Input id="certification" onChange={(e) => handleInputChange(e)} />
                                    </div>
 
                                    <div className="grid grid-rows-2 items-center gap-1">
@@ -186,7 +270,7 @@ export default function Aheader() {
 
                          </>)}
                          <DialogFooter>
-                              <Button onClick={SubmitTeacherRegistration}>Save changes</Button>
+                              <Button onClick={SubmitTeacherRegistration}> create teacher/instructor</Button>
                          </DialogFooter>
                     </DialogContent>
                </Dialog>
@@ -202,11 +286,11 @@ export default function Aheader() {
                          <DialogHeader>
                               <DialogTitle> create a student</DialogTitle>
                               <DialogDescription>
-                              Creating a student profile for registration.
+                                   Creating a student profile for registration.
                               </DialogDescription>
                          </DialogHeader>
 
-                         {ProcessStudentRequest ? (<>
+                         {SignUpMutation.isPending ? (<>
                               <Loader />
 
                          </>) : (<>
@@ -217,7 +301,7 @@ export default function Aheader() {
                                         <Input
                                              id="firstName"
                                              value={formDataStudent.firstName}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , firstName: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, firstName: e.target.value }))}
                                         />
                                    </div>
 
@@ -227,7 +311,7 @@ export default function Aheader() {
                                         <Input
                                              id="lastName"
                                              value={formDataStudent.lastName}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , lastName: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, lastName: e.target.value }))}
                                         />
                                    </div>
 
@@ -238,7 +322,7 @@ export default function Aheader() {
                                              id="email"
                                              type="email"
                                              value={formDataStudent.email}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , email: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, email: e.target.value }))}
                                         />
                                    </div>
 
@@ -249,7 +333,7 @@ export default function Aheader() {
                                              id="phoneNumber"
                                              type="tel"
                                              value={formDataStudent.phoneNumber}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , phoneNumber: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, phoneNumber: e.target.value }))}
                                         />
                                    </div>
 
@@ -259,7 +343,7 @@ export default function Aheader() {
                                         <Input
                                              id="address"
                                              value={formDataStudent.address}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , address: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, address: e.target.value }))}
                                         />
                                    </div>
 
@@ -270,11 +354,11 @@ export default function Aheader() {
                                              id="dateOfBirth"
                                              type="date"
                                              value={formDataStudent.dateOfBirth}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , dateOfBirth: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, dateOfBirth: e.target.value }))}
                                         />
                                    </div>
 
-                                   
+
 
                                    {/* Course */}
                                    <div className="grid grid-rows-2 items-center gap-1">
@@ -282,7 +366,7 @@ export default function Aheader() {
                                         <Input
                                              id="course"
                                              value={formDataStudent.course}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , course: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, course: e.target.value }))}
                                         />
                                    </div>
 
@@ -292,7 +376,7 @@ export default function Aheader() {
                                         <Input
                                              id="year"
                                              value={formDataStudent.year}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , year: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, year: e.target.value }))}
                                         />
                                    </div>
 
@@ -302,7 +386,7 @@ export default function Aheader() {
                                         <Input
                                              id="guardianName"
                                              value={formDataStudent.guardianName}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , guardianName: e.target.value}))}
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, guardianName: e.target.value }))}
                                         />
                                    </div>
 
@@ -313,7 +397,7 @@ export default function Aheader() {
                                              id="guardianContact"
                                              type="tel"
                                              value={formDataStudent.guardianContact}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , guardianContact: e.target.value}))}                                        />
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, guardianContact: e.target.value }))} />
                                    </div>
 
                                    {/* Emergency Contact */}
@@ -323,10 +407,10 @@ export default function Aheader() {
                                              id="emergencyContact"
                                              type="tel"
                                              value={formDataStudent.emergencyContact}
-                                             onChange={(e) => setFormDataStudent(pre=>({...pre , emergencyContact: e.target.value}))}                                        />
+                                             onChange={(e) => setFormDataStudent(pre => ({ ...pre, emergencyContact: e.target.value }))} />
                                    </div>
 
-                                  
+
                               </div>
 
 
