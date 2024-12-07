@@ -25,7 +25,7 @@ export default function ProviderQueryClient({ children }: { children: React.Reac
                mutations: {
                     // Mutation-specific settings
                     retry: 2,
-                    onError: (error: any) => {
+                    onError: (error) => {
                          console.error("Error performing mutation: ", error);
                     },
                },

@@ -3,7 +3,6 @@ import React from 'react'
 import Aheader from './Aheader'
 import SemesterCard from './SemesterCard';
 import SearchList from './SearchList';
-import { usePageTransition } from '@/components/PageAnimation';
 
 
 const fgo = [

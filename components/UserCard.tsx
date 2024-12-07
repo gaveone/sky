@@ -12,7 +12,6 @@ import { ModeToggle } from "./toggleMode";
 
 import React from 'react'
 import { Button } from "./ui/button";
-import SignOut from "@/server/endPoint/SignOut";
 import { useSession , signOut } from "next-auth/react"
 
 type props = {
@@ -21,7 +20,7 @@ type props = {
      username: string | null
 }
 
-function UserCard({ clap, userNumber, username }: props) {
+function UserCard({ clap }: props) {
      const { data: session } = useSession()
      console.log(session?.user.UserIdNumber);
      

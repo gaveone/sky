@@ -21,7 +21,7 @@ export default function Login() {
       signIn("credentials", { email: email, password: password , redirect:true ,redirectTo:"/Home/Student" })
 
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
 
       toast({
         title: "success",
@@ -97,6 +97,7 @@ export default function Login() {
     
 
     } catch (error) {
+      console.error("Unhandled error occurred:", error);
       toast({
         title: "error",
         description: "Invalid Student Number",

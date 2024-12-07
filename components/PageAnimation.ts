@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router';
 
 function sleep(ms: number): Promise<void> {

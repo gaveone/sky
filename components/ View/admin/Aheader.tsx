@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/loader";
 import { useMutation } from "@tanstack/react-query";
-import SignUp from "@/server/endPoint/SignUp";
 import { useToast } from "@/hooks/use-toast";
 import { studentSchema, teacherRegistrationSchema } from "@/lib/zot";
 import axios from 'axios'
@@ -39,7 +38,6 @@ export default function Aheader() {
           certification: '',
           yearsOfExperience: ''
      });
-     const [ProcessTeacherRequest, setProcessTeacherRequest] = useState(false)
 
      const [formDataStudent, setFormDataStudent] = useState({
           firstName: '',          // First Name of the student
@@ -55,17 +53,16 @@ export default function Aheader() {
           emergencyContact: '',   // Emergency Contact number
 
      });
-     const [ProcessStudentRequest, setProcessStudentRequest] = useState(false)
      const SignUpMutation = useMutation({
           mutationFn: async (data:gp)=>{
                const U = await axios.post("/api/signUp", data)
                return U.data;
 
           },
-          onSuccess: (data) => {
-               // toast({
-               //      description: data?.message
-               // })
+          onSuccess: () => {
+               toast({
+                    description: " successfully signed up"
+               })
 
           }
      })
